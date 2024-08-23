@@ -3,16 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connect Kaikas Wallet</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Kaikas Wallet Connection</title>
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 </head>
 <body>
-    <div class="container">
-        <h1>Connecting to Kaikas Wallet</h1>
-        <p id="status">Please approve the connection request in your Kaikas wallet.</p>
-        <button id="connectBtn">Connect Kaikas</button>
-    </div>
-    <script src="https://cdn.klaytn.com/klaytn/sdk/v1.0.0/caver.min.js"></script>
-    <script type="module" src="script.js"></script>
+    <h1>Connecting to Kaikas Wallet...</h1>
+    <p>If the wallet app doesn't open automatically, please <a id="kaikas-link" href="#">click here</a>.</p>
+
+    <script>
+        async function initializeLiff() {
+            try {
+                // Initialize LIFF app with the provided LIFF ID
+                await liff.init({ liffId: "2006143560-2EB6oe6l" });
+
+                // Get Kaikas URI from the query string
+                const params = new URLSearchParams(window.location.search);
+                const kaikasUri = params.get('uri');
+
+                if (kaikasUri) {
+                    // Automatically open Kaikas Wallet using the URI
+                    window.location.href = kaikasUri;
+
+                    // Set the manual click link for opening Kaikas Wallet
+                    document.getElementById('kaikas-link').href = kaikasUri;
+
+                    // After Kaikas Wallet opens, delay a bit and then close the LIFF window
+                    setTimeout(() => {
+                        liff.closeWindow();
+                    }, 1000); // Close the LIFF window and return to LINE after 1 second
+                } else {
+                    document.body.innerHTML = '<p>Invalid request. No Kaikas URI found.</p>';
+                }
+            } catch (error) {
+                console.error('LIFF initialization failed', error);
+                document.body.innerHTML = '<p>Failed to initialize LIFF. Please try again later.</p>';
+            }
+        }
+
+        // Initialize LIFF when the page loads
+        window.onload = () => {
+            initializeLiff();
+        };
+    </script>
 </body>
 </html>
