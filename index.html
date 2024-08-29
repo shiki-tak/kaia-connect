@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kaikas Wallet Connection</title>
+    <title>Kaia Wallet Connection</title>
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 </head>
 <body>
-    <h1>Connecting to Kaikas Wallet...</h1>
+    <h1>Connecting to Kaia Wallet...</h1>
     <p>If the wallet app doesn't open automatically, please <a id="kaikas-link" href="#">click here</a>.</p>
 
     <script>
@@ -32,7 +32,7 @@
                         liff.closeWindow();
                     }, 1000); // Close the LIFF window and return to LINE after 1 second
                 } else {
-                    document.body.innerHTML = '<p>Invalid request. No Kaikas URI found.</p>';
+                    document.body.innerHTML = '<p>Invalid request. No Kaia URI found.</p>';
                 }
             } catch (error) {
                 console.error('LIFF initialization failed', error);
